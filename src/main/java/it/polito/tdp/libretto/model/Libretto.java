@@ -17,9 +17,19 @@ public class Libretto {
 	 * Aggiunge un nuovo voto al libretto
 	 * 
 	 * @param v Voto da aggiungere
+	 * @return @code true} se hai inserito il voto, {@code false} se non l'ha
+	 * inserito perchè era in conflitto oppure era dupliato
 	 */
-	public void add(Voto v) {
-		this.voti.add(v);
+	
+	public boolean add(Voto v) {
+		if(this.isConflitto(v) || this.isDuplicato(v))
+			//non inserire voto
+			{return false;} //non ha avuto successo
+		else
+		{	
+			this.voti.add(v);
+			return true;
+		}
 	}
 
 	/**
@@ -61,6 +71,70 @@ public class Libretto {
 			s += v.toString() + "\n";
 		}
 		return s;
+	}
+	
+	/**
+	 * Dato il nome di un corso, ricerca se quell'esame esiste
+	 * nel libretto e in caso affermativo restituisce l'oggetto
+	 * {@link Voto} corrispondente
+	 * Se l'esame non esiste restituisce {@code null}.
+	 * @param nomeCorso nome esame da cercare
+	 * @return il {@link Voto} corrispondente, oppure {@code null} se non esiste
+	 */
+	
+
+	public Voto cercaNomeCorso(String nomeCorso) {
+	/*
+		for(Voto v : this.voti)
+		{
+			if(nomeCorso.equals(v.getCorso()))
+				return v;
+		}
+		
+		return null;
+	*/
+		
+		int pos =this.voti.indexOf(new Voto(nomeCorso,0,null));
+		if(pos!= -1)
+			return this.voti.get(pos);
+		else
+			return null;
+	}
+	
+	/**
+	 * Ritorna {@code true} se il corso specificato da {@code Voto} esiste nel libretto, con 
+	 * la stessa valutazione
+	 * Se non esiste, o se la valitazione è diversa, ritorna {@code false}
+	 * @param v il {@link Voto} da ricercare
+	 * @return l'esistenza di un duplicato
+	 */
+	public boolean isDuplicato(Voto v) {
+		Voto esiste = this.cercaNomeCorso(v.getCorso());
+		if(esiste==null) //non l'ho trovato, non duplicato
+			return false;
+		/*
+		if(esiste.getVoto()==v.getVoto())
+			return true;
+		else
+			return false;
+		*/
+		return (esiste.getVoto()==v.getVoto());
+		
+	}
+	
+	/**
+	 * Determina se un {@code Voto} esiste con lo stesso nome del corso ma valutazione
+	 * diversa
+	 * @param v
+	 * @return
+	 */
+	
+	public boolean isConflitto(Voto v) {
+		Voto esiste = this.cercaNomeCorso(v.getCorso());
+		if(esiste==null) //non l'ho trovato, non duplicato
+			return false;
+		return (esiste.getVoto()!=v.getVoto());
+		
 	}
 
 }
