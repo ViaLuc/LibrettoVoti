@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Memorizza e gestisce un insieme di voti superati.
  * 
- * @author Fulvio
+ * @author Luca
  *
  */
 public class Libretto {

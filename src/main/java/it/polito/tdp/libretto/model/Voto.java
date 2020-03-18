@@ -6,7 +6,7 @@ import java.time.LocalDate;
  * Classe Voto, contiene le informazioni su un esame
  * superato.
  * 
- * @author Fulvio
+ * @author Luca
  *
  */
 public class Voto {
